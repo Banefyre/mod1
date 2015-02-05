@@ -1,3 +1,4 @@
+#include <Landscape.hpp>
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
 
 ModelManager g_Model;											// Our class to handle initializing and drawing our model
@@ -41,9 +42,9 @@ void GLApplication::initialize()
 
 
     //Draw a flat map, square by square. It takes 6 vertices to make a square (2 triangles).
-    // TODO: The actual landscape simulation :P
+    Landscape landscape = Landscape("map");
 
-    int mapX=50;
+  /*  int mapX=50;
     int mapZ=50;
     Vertex3 vertices[(mapX - 1) * (mapZ - 1) * 6];
     int i = 0;
@@ -64,9 +65,9 @@ void GLApplication::initialize()
         }
 
     }
-
+*/
     // Initialize the model with the vertex array and give the vertex length of 120
-    g_Model.initialize(vertices,(mapX - 1) * (mapZ - 1) * 6 , "Shaders/Shader.vertex", "Shaders/Shader.fragment");
+    g_Model.initialize(landscape.vertab, landscape.size , "Shaders/Shader.vertex", "Shaders/Shader.fragment");
 
     // Create the projection matrix from our camera and make the near field closer and the far field farther.
     // This makes it so our tower doesn't get cut off and also doesn't cull geometry right near the camera.
