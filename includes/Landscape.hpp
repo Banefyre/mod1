@@ -23,6 +23,8 @@ public:
 
     int getHeight(void) const;
 
+    Vertex3 pushPoint(int x, float y, int z);
+
     void generatePlan(std::vector<Vertex3> points);
 
 private :
@@ -30,7 +32,8 @@ private :
     int _height;
 public:
     Vertex3 *vertab;
-    int size;
+    unsigned long size;
+    int maxHeight;
 
 };
 

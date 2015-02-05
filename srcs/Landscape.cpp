@@ -10,7 +10,6 @@ Landscape::Landscape(std::string file) : ModelManager::ModelManager(), _width(50
     std::string str;
     Vertex3 point;
     std::vector <Vertex3> tab;
-
     fs.open(file.c_str());
     if (!fs) {
         // trow exception;
@@ -24,6 +23,7 @@ Landscape::Landscape(std::string file) : ModelManager::ModelManager(), _width(50
     tab.push_back(point);
     point.xyz = vec3(49, 0, 0);
     tab.push_back(point);
+    this->maxHeight = 0;
 
     while (std::getline(fs, str)) {
         std::string tmp;
@@ -46,6 +46,10 @@ Landscape::Landscape(std::string file) : ModelManager::ModelManager(), _width(50
         tmp = str.substr(0, index);
         point.xyz.y = std::atoi(tmp.c_str());
         str.erase(0, index + 1);
+
+        if (point.xyz.y > this->maxHeight) {
+            this->maxHeight = point.xyz.y;
+        }
 
         index = str.find(' ');
         tmp = str.substr(0, index);
@@ -119,81 +123,31 @@ float hauteur(std::vector<Vertex3> points, int x, int z) {
     return sum1 / sum2;
 }
 
+Vertex3 Landscape::pushPoint(int x, float y, int z) {
+    Vertex3 point;
+    float heightColor = y / this->maxHeight;
+    point.xyz = vec3(x + 1, y, z);
+    point.rgba = vec4(1.0f * heightColor, 1.5f * (1.0f - heightColor), 0.5f * (1.0f - heightColor), 1.0f);
+    return point;
+
+}
+
 void Landscape::generatePlan(std::vector < Vertex3 > points) {
 
     Vertex3 point;
     std::vector <Vertex3> tab;
 
+
     for (int z = 0; z < this->_height - 1; z++) {
         for (int x = 0; x < this->_width - 1; x++) {
 
             // first triangle
-            float y = hauteur(points, x, z);
-            point.xyz = vec3(x, y, z);
-            if (y > 8) {
-                point.rgba = vec4(0, 1, 0, 1);
-            } else if (y > 15) {
-                point.rgba = vec4(0, 0, 1, 1);
-            } else {
-                point.rgba = vec4(1, 0, 0, 1);
-            }
-            tab.push_back(point);
-
-            y = hauteur(points, x + 1, z);
-            point.xyz = vec3(x + 1, y, z);
-            if (y > 8) {
-                point.rgba = vec4(0, 1, 0, 1);
-            } else if (y > 15) {
-                point.rgba = vec4(0, 0, 1, 1);
-            } else {
-                point.rgba = vec4(1, 0, 0, 1);
-            }
-            tab.push_back(point);
-
-            y = hauteur(points, x, z - 1);
-            point.xyz = vec3(x, y, z - 1);
-            if (y > 8) {
-                point.rgba = vec4(0, 1, 0, 1);
-            } else if (y > 15) {
-                point.rgba = vec4(0, 0, 1, 1);
-            } else {
-                point.rgba = vec4(1, 0, 0, 1);
-            }
-            tab.push_back(point);
-
-            //second triangle
-            y = hauteur(points, x + 1, z);
-            point.xyz = vec3(x + 1, y, z);
-            if (y > 8) {
-                point.rgba = vec4(0, 1, 0, 1);
-            } else if (y > 15) {
-                point.rgba = vec4(0, 0, 1, 1);
-            } else {
-                point.rgba = vec4(1, 0, 0, 1);
-            }
-            tab.push_back(point);
-
-            y = hauteur(points, x + 1, z - 1);
-            point.xyz = vec3(x + 1, y, z - 1);
-            if (y > 8) {
-                point.rgba = vec4(0, 1, 0, 1);
-            } else if (y > 15) {
-                point.rgba = vec4(0, 0, 1, 1);
-            } else {
-                point.rgba = vec4(1, 0, 0, 1);
-            }
-            tab.push_back(point);
-
-            y = hauteur(points, x, z - 1);
-            point.xyz = vec3(x, y, z - 1);
-            if (y > 8) {
-                point.rgba = vec4(0, 1, 0, 1);
-            } else if (y > 15) {
-                point.rgba = vec4(0, 0, 1, 1);
-            } else {
-                point.rgba = vec4(1, 0, 0, 1);
-            }
-            tab.push_back(point);
+            tab.push_back(pushPoint(x, hauteur(points, x, z), z));
+            tab.push_back(pushPoint(x + 1, hauteur(points, x + 1, z), z));
+            tab.push_back(pushPoint(x, hauteur(points, x, z - 1), z - 1));
+            tab.push_back(pushPoint(x + 1, hauteur(points, x + 1, z), z));
+            tab.push_back(pushPoint(x + 1, hauteur(points, x + 1, z - 1), z - 1));
+            tab.push_back(pushPoint(x, hauteur(points, x, z - 1), z - 1));
 
         }
     }
