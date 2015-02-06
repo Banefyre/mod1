@@ -33,7 +33,7 @@ private :
 public:
     Vertex3 *vertab;
     unsigned long size;
-    int maxHeight;
+    float maxHeight;
 
 };
 

@@ -1,4 +1,5 @@
 #include <Landscape.hpp>
+#include <GL/glew.h>
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
 
 ModelManager g_Model;											// Our class to handle initializing and drawing our model

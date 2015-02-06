@@ -1,3 +1,5 @@
+#include <iostream>
+#include <InputManager.hpp>
 #include "../includes/Landscape.hpp"
 
 Landscape::Landscape(void) : _width(50), _height(50) {
@@ -23,7 +25,7 @@ Landscape::Landscape(std::string file) : ModelManager::ModelManager(), _width(50
     tab.push_back(point);
     point.xyz = vec3(49, 0, 0);
     tab.push_back(point);
-    this->maxHeight = 0;
+    this->maxHeight = 0.01f;
 
     while (std::getline(fs, str)) {
         std::string tmp;
@@ -126,7 +128,7 @@ float hauteur(std::vector<Vertex3> points, int x, int z) {
 Vertex3 Landscape::pushPoint(int x, float y, int z) {
     Vertex3 point;
     float heightColor = y / this->maxHeight;
-    point.xyz = vec3(x + 1, y, z);
+    point.xyz = vec3(x, y, z);
     point.rgba = vec4(1.0f * heightColor, 1.5f * (1.0f - heightColor), 0.5f * (1.0f - heightColor), 1.0f);
     return point;
 
@@ -137,9 +139,18 @@ void Landscape::generatePlan(std::vector < Vertex3 > points) {
     Vertex3 point;
     std::vector <Vertex3> tab;
 
+    std::vector<std::vector<float>> norm;
 
-    for (int z = 0; z < this->_height - 1; z++) {
-        for (int x = 0; x < this->_width - 1; x++) {
+    norm.resize(_height);
+    for(int i = 0; i < 50 ; i++)
+    {
+        norm[i].resize(_width, 0.0f);
+    }
+
+    for (int x = 0; x < this->_width - 1; x++) {
+     for (int z = 0; z < this->_height - 1; z++) {
+
+            norm[x][z] = hauteur(points, x, z);
 
             // first triangle
             tab.push_back(pushPoint(x, hauteur(points, x, z), z));
