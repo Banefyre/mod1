@@ -1,5 +1,6 @@
 #include <Landscape.hpp>
 #include <GL/glew.h>
+#include <iostream>
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
 
 ModelManager g_Model;											// Our class to handle initializing and drawing our model
@@ -26,8 +27,9 @@ Camera* GLApplication::getCamera()const { return _camera; };
 WindowManager* GLApplication::getWindowManager()const { return _windowManager; }
 
 // This function initializes the window, the shaders and the triangle vertex data.
-void GLApplication::initialize()
+void GLApplication::initialize(char *map, char *scenario)
 {
+    (void)scenario;
     // Make sure the window manager is initialized prior to calling this and creates the OpenGL context
     if ( !_windowManager || _windowManager->initialize(screenWidth, screenHeight, "mod1", false) != 0 )
     {
@@ -43,30 +45,29 @@ void GLApplication::initialize()
 
 
     //Draw a flat map, square by square. It takes 6 vertices to make a square (2 triangles).
-    Landscape landscape = Landscape("map");
-
-  /*  int mapX=50;
-    int mapZ=50;
-    Vertex3 vertices[(mapX - 1) * (mapZ - 1) * 6];
-    int i = 0;
-
-    for (int x =0; x < 49; x++)
-    {
-        for (int z=0; z < 49; z++)
-        {
-            vertices[i].xyz = vec3(x,0,z);
-            vertices[i + 1].xyz = vec3(x+1, 0, z);
-            vertices[i + 2].xyz = vec3(x, 0 , z+1);
-
-            vertices[i + 3].xyz = vec3(x+1, 0, z);
-            vertices[i + 4].xyz = vec3(x+1, 0, z+1);
-            vertices[i + 5].xyz = vec3(x, 0 , z+1);
-
-            i+=6;
-        }
-
-    }
-*/
+//    int mapX=50;
+//    int mapZ=50;
+//    Vertex3 vertices[(mapX - 1) * (mapZ - 1) * 6];
+//    int i = 0;
+//
+//    for (int x =0; x < 49; x++)
+//    {
+//        for (int z=0; z < 49; z++)
+//        {
+//            vertices[i].xyz = vec3(x,0,z);
+//            vertices[i + 1].xyz = vec3(x+1, 0, z);
+//            vertices[i + 2].xyz = vec3(x, 0 , z+1);
+//
+//            vertices[i + 3].xyz = vec3(x+1, 0, z);
+//            vertices[i + 4].xyz = vec3(x+1, 0, z+1);
+//            vertices[i + 5].xyz = vec3(x, 0 , z+1);
+//
+//            i+=6;
+//        }
+//
+//    }
+    //Draw our landscape;
+    Landscape landscape = Landscape(map);
     // Initialize the model with the vertex array and give the vertex length of 120
     g_Model.initialize(landscape.vertab, landscape.size , "Shaders/Shader.vertex", "Shaders/Shader.fragment");
 
@@ -99,7 +100,7 @@ void GLApplication::gameLoop()
     // custom boolean variable like bGameNotOver that could be set somewhere else like a menu system.
     while ( _windowManager->processInput(true) )
     {
-        TimeManager::Instance().calculateFrameRate(true);
+        TimeManager::Instance().calculateFrameRate(false);
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -120,10 +121,12 @@ void GLApplication::gameLoop()
 }
 
 // This is our own main() function which abstracts the required main() function to run this application.
-int GLApplication::GLMain()
+int GLApplication::GLMain(char *map, char *scenario)
 {
+    std::cout << map << std::endl;
+    //std::cout << scenario << std::endl;
     // This calls our Initialize() function below which creates the window and triangle
-    initialize();
+    initialize(map, scenario);
 
     // This is our main game loop which will run until we close the window or hit Escape.
     gameLoop();

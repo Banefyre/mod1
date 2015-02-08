@@ -129,7 +129,7 @@ Vertex3 Landscape::pushPoint(int x, float y, int z) {
     Vertex3 point;
     float heightColor = y / this->maxHeight;
     point.xyz = vec3(x, y, z);
-    point.rgba = vec4(1.0f * heightColor, 1.5f * (1.0f - heightColor), 0.5f * (1.0f - heightColor), 1.0f);
+    point.rgba = vec4(1.0f * (heightColor) , 1.5f * (1.0f + heightColor), 0.5f , 1.0f);
     return point;
 
 }
