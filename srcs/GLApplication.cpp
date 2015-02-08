@@ -1,9 +1,11 @@
 #include <Landscape.hpp>
 #include <GL/glew.h>
 #include <iostream>
+#include "../includes/Cube.hpp"
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
 
-ModelManager g_Model;											// Our class to handle initializing and drawing our model
+ModelManager g_Model;										// Our class to handle initializing and drawing our landscape
+ModelManager water;
 
 
 //Coplien defs
@@ -66,8 +68,11 @@ void GLApplication::initialize(char *map, char *scenario)
 //        }
 //
 //    }
+
     //Draw our landscape;
     Landscape landscape = Landscape(map);
+
+
     // Initialize the model with the vertex array and give the vertex length of 120
     g_Model.initialize(landscape.vertab, landscape.size , "Shaders/Shader.vertex", "Shaders/Shader.fragment");
 
@@ -88,6 +93,15 @@ void GLApplication::initialize(char *map, char *scenario)
 
     // Set the position of the first triangle to be at the origin
     g_Model.setPosition(vec3(0, 0, 0));
+
+    Cube cube;
+    water.initialize(cube.watervertab, 36, "Shaders/Shader.vertex", "Shaders/Shader.fragment");
+
+    // We now pass in the camera to have access to the projection and view matrices
+    water.setCamera(_camera);
+
+    // Set the position of the first triangle to be at the origin
+    water.setPosition(vec3(5, 5, 5));
 }
 
 
@@ -104,11 +118,9 @@ void GLApplication::gameLoop()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Set the position of the first triangle to be at the origin
-        g_Model.setPosition(vec3(0, 0, 0));
-
         // Render the first triangle
         g_Model.render();
+        water.render();
 
 
         // Now that we have told OpenGL to draw our white triangle, it isn't on screen yet until we swap
