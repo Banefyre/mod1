@@ -1,18 +1,17 @@
 #ifndef __LANDSCAPE_HPP__
 #define __LANDSCAPE_HPP__
 
-#include <cstring>
-#include <cstdlib>
 #include <vector>
-#include "../includes/ModelManager.hpp"
+#include <string>
+#include <ModelManager.hpp>
+#include <fstream>
 
-class Landscape : public ModelManager {
-
+class Landscape
+{
 
 public:
 
     Landscape(void);
-    Landscape(std::string file);
     ~Landscape(void);
     Landscape &operator=(Landscape const &ref);
     int getWidth(void) const;
@@ -22,9 +21,13 @@ public:
     Vertex3 *vertab;
     unsigned long size;
     float maxHeight;
+    std::vector<std::vector<float>> heights;
+
+    void    initMap(std::string file);
 
 
 private :
+
     int _width;
     int _height;
 

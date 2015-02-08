@@ -1,15 +1,20 @@
 #include <Landscape.hpp>
 #include <GL/glew.h>
 #include <iostream>
+#include <Waterscape.hpp>
 #include "../includes/Cube.hpp"
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
+#include "../includes/Waterscape.hpp"
+#include "../includes/Landscape.hpp"
 
 ModelManager g_Model;										// Our class to handle initializing and drawing our landscape
 ModelManager water;
 
 
 //Coplien defs
-GLApplication::GLApplication()	{  };
+GLApplication::GLApplication()
+{
+};
 
 GLApplication::GLApplication(GLApplication const &src) {
     *this = src;
@@ -70,11 +75,15 @@ void GLApplication::initialize(char *map, char *scenario)
 //    }
 
     //Draw our landscape;
-    Landscape landscape = Landscape(map);
+    landscape.initMap(map);
 
 
     // Initialize the model with the vertex array and give the vertex length of 120
     g_Model.initialize(landscape.vertab, landscape.size , "Shaders/Shader.vertex", "Shaders/Shader.fragment");
+
+
+    std::cout << landscape.size << std::endl;
+
 
     // Create the projection matrix from our camera and make the near field closer and the far field farther.
     // This makes it so our tower doesn't get cut off and also doesn't cull geometry right near the camera.
@@ -108,6 +117,11 @@ void GLApplication::initialize(char *map, char *scenario)
 // This is our game loop where all the magic happens every frame
 void GLApplication::gameLoop()
 {
+
+
+    waterscape.waterHeights[0][0] = 1000.0f;
+
+
     // Loop until the user hits the Escape key or closes the window.  We created a ProcessInput function to
     // abstract the input from the main application flow so that we can make it easier for different
     // environments.  We pass in true to always keep the loop running, but this could be replaced with a
@@ -118,9 +132,37 @@ void GLApplication::gameLoop()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+
+
+        //water algo
+        for (int x = 0 ; x < landscape.getWidth() ; x++)
+        {
+            for (int z = 0 ; z < landscape.getHeight(); z++)
+            {
+                if (waterscape.waterHeights[x][z])
+                {
+                    water.setPosition(vec3(x, landscape.heights[x][z] + waterscape.waterHeights[x][z], z));
+                    water.render();
+
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+
         // Render the first triangle
+        g_Model.setPosition(vec3(0, 0, 0));
         g_Model.render();
-        water.render();
+
+
+
+
 
 
         // Now that we have told OpenGL to draw our white triangle, it isn't on screen yet until we swap
@@ -135,8 +177,7 @@ void GLApplication::gameLoop()
 // This is our own main() function which abstracts the required main() function to run this application.
 int GLApplication::GLMain(char *map, char *scenario)
 {
-    std::cout << map << std::endl;
-    //std::cout << scenario << std::endl;
+     std::cout << map << std::endl;
     // This calls our Initialize() function below which creates the window and triangle
     initialize(map, scenario);
 

@@ -1,20 +1,26 @@
 #include <iostream>
 #include <InputManager.hpp>
-#include "../includes/Landscape.hpp"
+#include <Landscape.hpp>
 
-Landscape::Landscape(void) : _width(50), _height(50) {
+Landscape::Landscape() : _width(50), _height(50)
+{
+    return ;
+};
+
+
+Landscape::~Landscape(void) {
+
 }
 
-Landscape::Landscape(std::string file) : ModelManager::ModelManager(), _width(50), _height(50) {
-
-//	this->generatePlan();
+void Landscape::initMap(std::string file)
+{
     std::ifstream fs;
     std::string str;
     Vertex3 point;
     std::vector <Vertex3> tab;
     fs.open(file.c_str());
     if (!fs) {
-        // trow exception;
+        std::cout << "NOF" << std::endl;
         exit(0);
     }
     point.xyz = vec3(0, 0, 0);
@@ -75,21 +81,12 @@ Landscape::Landscape(std::string file) : ModelManager::ModelManager(), _width(50
     fs.close();
     this->generatePlan(tab);
 
-//	Vertex3 * vertab = &tab[0];
-
-//	this->Initialize(vertab, tab.size(), "Shaders/Shader.vertex", "Shaders/Shader.fragment");
 }
 
-Landscape::~Landscape(void) {
-
-}
 
 Landscape &Landscape::operator=(Landscape const &ref) {
-    ModelManager::operator=(ref);
-    this->
-            _width = ref.getWidth();
-    this->
-            _height = ref.getHeight();
+    this->_width = ref.getWidth();
+    this->_height = ref.getHeight();
     return *this;
 
 }
@@ -136,21 +133,19 @@ Vertex3 Landscape::pushPoint(int x, float y, int z) {
 
 void Landscape::generatePlan(std::vector < Vertex3 > points) {
 
-    Vertex3 point;
     std::vector <Vertex3> tab;
 
-    std::vector<std::vector<float>> norm;
-
-    norm.resize(_height);
+    heights.resize(_height);
     for(int i = 0; i < 50 ; i++)
     {
-        norm[i].resize(_width, 0.0f);
+        heights[i].resize(_width, 0.0f);
     }
 
     for (int x = 0; x < this->_width - 1; x++) {
      for (int z = 0; z < this->_height - 1; z++) {
 
-            norm[x][z] = hauteur(points, x, z);
+
+         heights[x][z] = hauteur(points, x, z);
 
             // first triangle
             tab.push_back(pushPoint(x, hauteur(points, x, z), z));
@@ -162,7 +157,6 @@ void Landscape::generatePlan(std::vector < Vertex3 > points) {
 
         }
     }
-
 
     this->vertab = &tab[0];
     this->size = tab.size();

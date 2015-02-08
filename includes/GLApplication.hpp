@@ -4,6 +4,8 @@
 #include "WindowManager.hpp"					// Include our WindowManager to handle the application window
 #include "ModelManager.hpp"						// Include our Model class to draw the setup and draw the triangle
 #include "TimeManager.hpp"                      //Include TimeManager class for time slices
+#include "Landscape.hpp"
+#include "Waterscape.hpp"
 
 // This is our main application class that handles orchestrating the init, game loop and cleanup
 // of the application.  This is defined in Main.cpp and should be the first place you look for
@@ -17,6 +19,9 @@ public:
     // The width and height of the application
     static const int screenWidth = 1024;
     static const int screenHeight = 768;
+
+    Landscape           landscape;
+    Waterscape          waterscape;
 
     // Create a default constructor and deconstructor which cleans up
     GLApplication();
