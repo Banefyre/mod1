@@ -117,9 +117,7 @@ void GLApplication::initialize(char *map, char *scenario)
 // This is our game loop where all the magic happens every frame
 void GLApplication::gameLoop()
 {
-
-
-    waterscape.waterHeights[0][0] = 1000.0f;
+    waterscape.waterHeights[0][0] = 2000.0f;
 
 
     // Loop until the user hits the Escape key or closes the window.  We created a ProcessInput function to
@@ -135,41 +133,63 @@ void GLApplication::gameLoop()
 
 
         //water algo
-        for (int x = 0 ; x < landscape.getWidth() ; x++)
+        for (int x = 0 ; x < landscape.getWidth() - 1 ; x++)
         {
-            for (int z = 0 ; z < landscape.getHeight(); z++)
+            for (int z = 0 ; z < landscape.getHeight() - 1; z++)
             {
+
                 if (waterscape.waterHeights[x][z])
                 {
-                    water.setPosition(vec3(x, landscape.heights[x][z] + waterscape.waterHeights[x][z], z));
-                    water.render();
+
+
+                    //check les cases autour + recupere la case la moins haute (terre+eau)
+
+                    float minHeight = landscape.heights[x][z] + waterscape.waterHeights[x][z];
+                    int minX = x;
+                    int minZ = z;
+
+                    for (int xx = x - 1; xx <= x + 1 ; xx++) {
+                        for (int zz = z - 1 ; zz <= z + 1 ; zz++) {
+
+                            if (xx >= 0 && xx < waterscape.getWidth() - 1 && zz >= 0 && zz < waterscape.getHeight() - 1) {
+                               if ((waterscape.waterHeights[xx][zz] +  landscape.heights[xx][zz]) < minHeight) {
+                                   minHeight = (waterscape.waterHeights[xx][zz] + landscape.heights[xx][zz]);
+                                   minX = xx;
+                                   minZ = zz;
+                               }
+                            }
+                        }
+                    }
+
+
+
+                    if (minX != x || minZ != z) {
+                        //equillibre min case avec l'eau de la current case
+                        float average = (waterscape.waterHeights[x][z] + landscape.heights[x][z] + waterscape.waterHeights[minX][minZ] + landscape.heights[minX][minZ]) / 2;
+                        float toFill = average - (waterscape.waterHeights[minX][minZ] + landscape.heights[minX][minZ]);
+
+                        if (toFill > waterscape.waterHeights[x][z]) {
+                            waterscape.waterHeights[minX][minZ] = waterscape.waterHeights[x][z];
+                            waterscape.waterHeights[x][z] = 0.0f;
+                        }
+                        else {
+                            waterscape.waterHeights[x][z] -= toFill;
+                            waterscape.waterHeights[minX][minZ] += toFill;
+                        }
+                    }
+
+                        water.setScale(vec3(1.0f, waterscape.waterHeights[x][z] / 2, 1.0f));
+                        water.setPosition(vec3(x, (waterscape.waterHeights[x][z] / 2) + landscape.heights[x][z], z));
+                        water.render();
 
                 }
             }
         }
 
-
-
-
-
-
-
-
-
-        // Render the first triangle
         g_Model.setPosition(vec3(0, 0, 0));
         g_Model.render();
 
 
-
-
-
-
-        // Now that we have told OpenGL to draw our white triangle, it isn't on screen yet until we swap
-        // the back buffer with the front (visible) buffer.  This is so we don't see tearing artifacts
-        // happening as we draw many objects to the screen during a single frame.  This is the same as drawing
-        // objects in 2D, you don't swap the buffers until all the objects have been drawn on the screen.
-        // Since each cross-platform framework has their own method for this, we abstract it in our own class.
         _windowManager->swapTheBuffers();
     }
 }

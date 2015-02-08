@@ -146,8 +146,8 @@ void Landscape::generatePlan(std::vector < Vertex3 > points) {
 
 
          heights[x][z] = hauteur(points, x, z);
-
-            // first triangle
+         //std::cout << heights[x][z] << std::endl;
+         // first triangle
             tab.push_back(pushPoint(x, hauteur(points, x, z), z));
             tab.push_back(pushPoint(x + 1, hauteur(points, x + 1, z), z));
             tab.push_back(pushPoint(x, hauteur(points, x, z - 1), z - 1));
