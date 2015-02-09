@@ -21,7 +21,7 @@ public:
     Vertex3 *vertab;
     unsigned long size;
     float maxHeight;
-    std::vector<std::vector<float>> heights;
+    std::vector<std::vector<double>> heights;
 
     void    initMap(std::string file);
 

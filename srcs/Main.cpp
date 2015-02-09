@@ -28,5 +28,8 @@ int main(int ac, char **av)
 
     // Return the GLMain() defined in Main.cpp, which handles the flow of our application
     // and immediately starts our game loop.
-    return application.GLMain(av[1], av[2]);
+
+    std::string map = std::string(av[1]);
+    std::string scenario = std::string(av[2]);
+    return application.GLMain(map, scenario);
 }

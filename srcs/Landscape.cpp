@@ -138,7 +138,7 @@ void Landscape::generatePlan(std::vector < Vertex3 > points) {
     heights.resize(_height);
     for(int i = 0; i < 50 ; i++)
     {
-        heights[i].resize(_width, 0.0f);
+        heights[i].resize(_width, 0.0);
     }
 
     for (int x = 0; x < this->_width - 1; x++) {

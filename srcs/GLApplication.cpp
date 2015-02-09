@@ -34,9 +34,8 @@ Camera* GLApplication::getCamera()const { return _camera; };
 WindowManager* GLApplication::getWindowManager()const { return _windowManager; }
 
 // This function initializes the window, the shaders and the triangle vertex data.
-void GLApplication::initialize(char *map, char *scenario)
+void GLApplication::initialize(std::string map)
 {
-    (void)scenario;
     // Make sure the window manager is initialized prior to calling this and creates the OpenGL context
     if ( !_windowManager || _windowManager->initialize(screenWidth, screenHeight, "mod1", false) != 0 )
     {
@@ -115,9 +114,16 @@ void GLApplication::initialize(char *map, char *scenario)
 
 
 // This is our game loop where all the magic happens every frame
-void GLApplication::gameLoop()
-{
-    waterscape.waterHeights[0][0] = 2000.0f;
+void GLApplication::gameLoop() {
+
+    if (scenario == "wave")
+    {
+        for (int i=0; i < 49; i++)
+        {
+            waterscape.waterHeights[0][i] = 100.0;
+        }
+
+    }
 
 
     // Loop until the user hits the Escape key or closes the window.  We created a ProcessInput function to
@@ -130,17 +136,14 @@ void GLApplication::gameLoop()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
         //water algo
         for (int x = 0 ; x < landscape.getWidth() - 1 ; x++)
         {
             for (int z = 0 ; z < landscape.getHeight() - 1; z++)
             {
 
-                if (waterscape.waterHeights[x][z])
+                if (waterscape.waterHeights[x][z] > 0.000000)
                 {
-
 
                     //check les cases autour + recupere la case la moins haute (terre+eau)
 
@@ -169,8 +172,8 @@ void GLApplication::gameLoop()
                         float toFill = average - (waterscape.waterHeights[minX][minZ] + landscape.heights[minX][minZ]);
 
                         if (toFill > waterscape.waterHeights[x][z]) {
-                            waterscape.waterHeights[minX][minZ] = waterscape.waterHeights[x][z];
-                            waterscape.waterHeights[x][z] = 0.0f;
+                            waterscape.waterHeights[minX][minZ] += waterscape.waterHeights[x][z];
+                            waterscape.waterHeights[x][z] = 0.0;
                         }
                         else {
                             waterscape.waterHeights[x][z] -= toFill;
@@ -178,9 +181,11 @@ void GLApplication::gameLoop()
                         }
                     }
 
-                        water.setScale(vec3(1.0f, waterscape.waterHeights[x][z] / 2, 1.0f));
+                    if ( waterscape.waterHeights[x][z] > 0.01) {
+                        water.setScale(vec3(1.0f, waterscape.waterHeights[x][z] / 2, 1.0));
                         water.setPosition(vec3(x, (waterscape.waterHeights[x][z] / 2) + landscape.heights[x][z], z));
                         water.render();
+                    }
 
                 }
             }
@@ -195,11 +200,11 @@ void GLApplication::gameLoop()
 }
 
 // This is our own main() function which abstracts the required main() function to run this application.
-int GLApplication::GLMain(char *map, char *scenario)
+int GLApplication::GLMain(std::string map, std::string scenarioType)
 {
-     std::cout << map << std::endl;
+    scenario = scenarioType;
     // This calls our Initialize() function below which creates the window and triangle
-    initialize(map, scenario);
+    initialize(map);
 
     // This is our main game loop which will run until we close the window or hit Escape.
     gameLoop();

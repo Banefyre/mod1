@@ -29,9 +29,11 @@ public:
     GLApplication(GLApplication const & src);
     GLApplication&operator=(GLApplication const & rhs);
 
+    std::string     scenario;
+
     // This is the main function for our application, which is called by the main() function
     // in the WindowManager.cpp file.  This helps abstract out the environments entry point.
-    int GLMain(char *map, char *scenario);
+    int GLMain(std::string map, std::string scenario);
 
     // This gets and sets the window manager for the application.  This should be set right
     // after the GLApplication is created in the main() function.
@@ -43,7 +45,7 @@ public:
     void setCamera(Camera *pCamera) { _camera = pCamera; }
 
     // This initializes the application
-    void initialize(char *map, char *scenario);
+    void initialize(std::string map);
 
     // This runs the game loop and only quits when the user hits Escape or closes the window
     void gameLoop();

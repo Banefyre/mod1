@@ -15,7 +15,7 @@ public:
     Waterscape &operator=(Waterscape const &ref);
     int getWidth(void) const;
     int getHeight(void) const;
-    std::vector<std::vector<float>> waterHeights;
+    std::vector<std::vector<double>> waterHeights;
 
 
 private :
