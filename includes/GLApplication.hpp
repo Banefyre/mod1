@@ -50,6 +50,8 @@ public:
     // This runs the game loop and only quits when the user hits Escape or closes the window
     void gameLoop();
 
+    void waterUpdate();
+
 
 private:
 
