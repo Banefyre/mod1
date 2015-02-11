@@ -101,7 +101,7 @@ double Landscape::hauteur(std::vector<Vertex3> points, int x, int z) {
     int i;
 
 
-    for(i = 0; i < nb_heights -1; i++){
+    for(i = 0; i < nb_heights; i++){
         float d = distance(points[i], x, z);
         if (x == points[i].xyz.x && z == points[i].xyz.z) {
             return points[i].xyz.y;
@@ -117,7 +117,7 @@ Vertex3 Landscape::pushPoint(int x, float y, int z) {
     Vertex3 point;
     float heightColor = y / maxHeight;
     point.xyz = vec3(x, y, z);
-    point.rgba = vec4(vec4(heightColor,  1.5f * (1 - heightColor),0.1f, 1));
+    point.rgba = vec4(vec4(0.5f,  1.5f * (1 - heightColor),heightColor * 1.8f, 1));
     return point;
 
 }
