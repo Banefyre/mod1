@@ -3,9 +3,10 @@
 #include <iostream>
 #include <Waterscape.hpp>
 #include "../includes/Cube.hpp"
+#include "../includes/Raindrop.hpp"
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
 
-ModelManager land;										// Our class to handle initializing and drawing our landscape
+ModelManager land;										    // Our class to handle initializing and drawing our landscape
 ModelManager water;
 
 
@@ -94,19 +95,18 @@ void GLApplication::waterUpdate() {
     {
         for (int x = 0 ; x < landscape.getWidth(); x++) {
             for (int z = 0; z < landscape.getHeight(); z++) {
-                    if (waterscape.waterHeights[x][z] > 0.000)
+                    if (waterscape.waterHeights[x][z] > 0.0000)
                     {
-                        waterscape.waterHeights[x][z] += 0.01;
+                        waterscape.waterHeights[x][z] += 0.9 * TimeManager::Instance().deltaTime;
                     }
             }
         }
     }
-
-    for (int x = 0 ; x < landscape.getWidth() ; x++)
+    for (int x = 0 ; x < landscape.getWidth(); x++)
     {
         for (int z = 0 ; z < landscape.getHeight(); z++)
         {
-            if (waterscape.waterHeights[x][z] > 0.000000)
+            if (waterscape.waterHeights[x][z] > 0.000)
             {
                 //check les cases autour + recupere la case la moins haute (terre+eau)
 
@@ -116,7 +116,7 @@ void GLApplication::waterUpdate() {
 
                 for (int xx = x - 1; xx <= x + 1 ; xx++) {
                     for (int zz = z - 1 ; zz <= z + 1 ; zz++) {
-                        if (xx >= 0 && xx < waterscape.getWidth() - 1 && zz >= 0 && zz < waterscape.getHeight() - 1) {
+                        if (xx >= 0 && xx < waterscape.getWidth()  && zz >= 0 && zz < waterscape.getHeight() ) {
                             if ((waterscape.waterHeights[xx][zz] +  landscape.heights[xx][zz]) < minHeight) {
                                 minHeight = (waterscape.waterHeights[xx][zz] + landscape.heights[xx][zz]);
                                 minX = xx;
@@ -141,7 +141,7 @@ void GLApplication::waterUpdate() {
                     }
                 }
 
-                if ( waterscape.waterHeights[x][z] > 0.000001) {
+                if ( waterscape.waterHeights[x][z] > 0.00001) {
                     water.setScale(vec3(1.0f, waterscape.waterHeights[x][z] / 2, 1.0));
                     water.setPosition(vec3(x, (waterscape.waterHeights[x][z] / 2) + landscape.heights[x][z], z));
                     water.render();
@@ -166,13 +166,14 @@ void GLApplication::gameLoop() {
     }
     else if (scenario == "rise")
     {
-       waterscape.waterHeights[0][0] = 1;
-        waterscape.waterHeights[0][49] = 1;
-        std::cout << waterscape.waterHeights[0][49] << std::endl;
-        waterscape.waterHeights[49][0] = 1;
-        waterscape.waterHeights[49][49] = 1;
+       waterscape.waterHeights[0][0] = 0.00001;
+        waterscape.waterHeights[0][49] = 0.00001;
+        waterscape.waterHeights[49][0] = 0.00001;
+        waterscape.waterHeights[49][49] = 0.00001;
 
     }
+    Raindrop drop;
+    drop.init();
     // Loop until the user hits the Escape key or closes the window.  We created a ProcessInput function to
     // abstract the input from the main application flow so that we can make it easier for different
     // environments.  We pass in true to always keep the loop running, but this could be replaced with a

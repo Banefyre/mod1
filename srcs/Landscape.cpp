@@ -1,6 +1,6 @@
 #include <iostream>
 #include <InputManager.hpp>
-#include <Landscape.hpp>
+#include "../includes/Landscape.hpp"
 
 Landscape::Landscape() : _width(50), _height(50)
 {
@@ -23,6 +23,7 @@ void Landscape::initMap(std::string file)
         std::cout << "NOF" << std::endl;
         exit(0);
     }
+    nb_heights = 4;
     point.xyz = vec3(0, 0, 0);
     tab.push_back(point);
     point.xyz = vec3(0, 0, 49);
@@ -31,7 +32,7 @@ void Landscape::initMap(std::string file)
     tab.push_back(point);
     point.xyz = vec3(49, 0, 0);
     tab.push_back(point);
-    this->maxHeight = 0.01f;
+    this->maxHeight = 0.0001;
 
     while (std::getline(fs, str)) {
         std::string tmp;
@@ -63,23 +64,13 @@ void Landscape::initMap(std::string file)
         tmp = str.substr(0, index);
         point.xyz.z = std::atoi(tmp.c_str());
         str.erase(0, index + 1);
-
-/*		if (str == "red") {
-			point.rgba = vec4(1, 0, 0, 1);
-		}
-
-		if (str == "green") {
-			point.rgba = vec4(0, 1, 0, 1);
-		}
-
-		if (str == "blue") {
-			point.rgba = vec4(0, 0, 1, 1);
-		}*/
-
         tab.push_back(point);
+        nb_heights += 1;
     }
     fs.close();
     this->generatePlan(tab);
+    std::cout << nb_heights << std::endl;
+    std::cout << maxHeight << std::endl;
 
 }
 
@@ -103,20 +94,20 @@ float distance(Vertex3 a, int x, int z) {
     return sqrt(pow((a.xyz.x - x), 2) + pow((a.xyz.z - z), 2));
 }
 
-float hauteur(std::vector<Vertex3> points, int x, int z) {
+double Landscape::hauteur(std::vector<Vertex3> points, int x, int z) {
     float sum1 = 0;
     float sum2 = 0;
 
     int i;
 
 
-    for(i = 0; i < 6; i++){
+    for(i = 0; i < nb_heights -1; i++){
         float d = distance(points[i], x, z);
         if (x == points[i].xyz.x && z == points[i].xyz.z) {
             return points[i].xyz.y;
         }
         float w = 1 / pow(d, 1.5);
-        sum1 = sum1 + (points[i].xyz.y / pow(d, 1.5));
+        sum1 = sum1 + (points[i].xyz.y * w);
         sum2 = sum2 + w;
     }
     return sum1 / sum2;
@@ -124,9 +115,9 @@ float hauteur(std::vector<Vertex3> points, int x, int z) {
 
 Vertex3 Landscape::pushPoint(int x, float y, int z) {
     Vertex3 point;
-    float heightColor = y / this->maxHeight;
+    float heightColor = y / maxHeight;
     point.xyz = vec3(x, y, z);
-    point.rgba = vec4(1.0f * (heightColor) , 1.5f * (1.0f + heightColor), 0.5f , 1.0f);
+    point.rgba = vec4(vec4(heightColor,  1.5f * (1 - heightColor),0.1f, 1));
     return point;
 
 }

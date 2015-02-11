@@ -20,10 +20,12 @@ public:
     void generatePlan(std::vector<Vertex3> points);
     Vertex3 *vertab;
     unsigned long size;
-    float maxHeight;
+    double maxHeight;
+    int     nb_heights;
     std::vector<std::vector<double>> heights;
 
     void    initMap(std::string file);
+    double hauteur(std::vector<Vertex3> points, int x, int z);
 
 
 private :
