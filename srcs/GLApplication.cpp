@@ -137,6 +137,19 @@ void GLApplication::waterUpdate() {
             }
         }
     }
+    if (scenario == "empty")
+    {
+        for (int x = 0 ; x < landscape.getWidth(); x++) {
+            for (int z = 0; z < landscape.getHeight(); z++) {
+                if (waterscape.waterHeights[x][z] > 1.0f) {
+                        waterscape.waterHeights[x][z] -= 1.0f * TimeManager::Instance().deltaTime;
+                }
+                else {
+                    waterscape.waterHeights[x][z] = 0.0f;
+                }
+            }
+        }
+    }
     for (int x = 0 ; x < landscape.getWidth() -1; x++)
     {
         for (int z = 0 ; z < landscape.getHeight()-1; z++)
@@ -201,11 +214,21 @@ void GLApplication::gameLoop() {
     }
     else if (scenario == "rise")
     {
-       waterscape.waterHeights[0][0] = 0.00001;
+        waterscape.waterHeights[0][0] = 0.00001;
         waterscape.waterHeights[0][49] = 0.00001;
         waterscape.waterHeights[49][0] = 0.00001;
         waterscape.waterHeights[49][49] = 0.00001;
 
+    }
+    else if (scenario == "empty")
+    {
+        for (int i=0; i < 49; i++)
+        {
+            for (int j=0; j < 49; j++)
+            {
+                waterscape.waterHeights[i][j] = 30.0;
+            }
+        }
     }
     // Loop until the user hits the Escape key or closes the window.  We created a ProcessInput function to
     // abstract the input from the main application flow so that we can make it easier for different

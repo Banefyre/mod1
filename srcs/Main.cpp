@@ -31,5 +31,8 @@ int main(int ac, char **av)
 
     std::string map = std::string(av[1]);
     std::string scenario = std::string(av[2]);
+    if (scenario != "empty" && scenario != "wave" && scenario != "rain" && scenario != "rise") {
+        std::cout <<  "No scenario found, loading default scenario : NO WATER" << std::endl;
+    }
     return application.GLMain(map, scenario);
 }

@@ -20,7 +20,7 @@ void Landscape::initMap(std::string file)
     std::vector <Vertex3> tab;
     fs.open(file.c_str());
     if (!fs) {
-        std::cout << "NOF" << std::endl;
+        std::cout << "NO FILE FOUND, ERROR" << std::endl;
         exit(0);
     }
     nb_heights = 4;
@@ -69,9 +69,6 @@ void Landscape::initMap(std::string file)
     }
     fs.close();
     this->generatePlan(tab);
-    std::cout << nb_heights << std::endl;
-    std::cout << maxHeight << std::endl;
-
 }
 
 
