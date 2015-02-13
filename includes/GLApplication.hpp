@@ -23,6 +23,8 @@ public:
     Landscape           landscape;
     Waterscape          waterscape;
 
+    std::vector<vec3*> rainPos;
+
     // Create a default constructor and deconstructor which cleans up
     GLApplication();
     ~GLApplication();
@@ -51,6 +53,8 @@ public:
     void gameLoop();
 
     void waterUpdate();
+
+    float c = 0.0f;
 
 
 private:

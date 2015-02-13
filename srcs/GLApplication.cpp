@@ -3,12 +3,11 @@
 #include <iostream>
 #include <Waterscape.hpp>
 #include "../includes/Cube.hpp"
-#include "../includes/Raindrop.hpp"
 #include "../includes/GLApplication.hpp" 					// Include our main header for the application
 
 ModelManager land;										    // Our class to handle initializing and drawing our landscape
 ModelManager water;
-
+ModelManager rain;
 
 //Coplien defs
 GLApplication::GLApplication()
@@ -86,10 +85,46 @@ void GLApplication::initialize(std::string map)
 
     // Set the position of the first triangle to be at the origin
     water.setPosition(vec3(5, 5, 5));
+
+    Cube raindrop;
+    rain.initialize(raindrop.watervertab, 36, "Shaders/Shader.vertex", "Shaders/Shader.fragment");
+    rain.setCamera(_camera);
+    rain.setScale(vec3(0.2f));
 }
 
 
 void GLApplication::waterUpdate() {
+
+    if (scenario == "rain")
+    {
+        c -= TimeManager::Instance().deltaTime;
+
+        if (c < 0)
+        {
+            //init a new raindrop
+            int x = rand()%49;
+            int z = rand()%49;
+            rainPos.push_back(new vec3(x, 150, z));
+
+            c = 0.001f;
+        }
+
+        for(std::vector<vec3*>::iterator it=rainPos.begin(); it!=rainPos.end(); ++it)
+        {
+            vec3* el = *it;
+            el->y -= 100.0f * TimeManager::Instance().deltaTime;
+            //std::cout << el.y << std::endl;
+            if(el->y <= (waterscape.waterHeights[el->x][el->z] + landscape.heights[el->x][el->z]))
+            {
+                waterscape.waterHeights[el->x][el->z] += 0.5;
+                rainPos.erase(it);
+                delete el;
+            }else {
+                rain.setPosition(*el);
+                rain.render();
+            }
+        }
+    }
 
     if (scenario == "rise")
     {
@@ -102,9 +137,9 @@ void GLApplication::waterUpdate() {
             }
         }
     }
-    for (int x = 0 ; x < landscape.getWidth(); x++)
+    for (int x = 0 ; x < landscape.getWidth() -1; x++)
     {
-        for (int z = 0 ; z < landscape.getHeight(); z++)
+        for (int z = 0 ; z < landscape.getHeight()-1; z++)
         {
             if (waterscape.waterHeights[x][z] > 0.000)
             {
@@ -172,8 +207,6 @@ void GLApplication::gameLoop() {
         waterscape.waterHeights[49][49] = 0.00001;
 
     }
-    Raindrop drop;
-    drop.init();
     // Loop until the user hits the Escape key or closes the window.  We created a ProcessInput function to
     // abstract the input from the main application flow so that we can make it easier for different
     // environments.  We pass in true to always keep the loop running, but this could be replaced with a
