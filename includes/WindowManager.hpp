@@ -40,17 +40,3 @@ protected:
 };
 
 #endif
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// Use this class as the abstract base class for your desired API.  We are using 
-// the cross-platform GLFW in our tutorials with GLFWManager class, but you can 
-// add your own for other APIs like GLUT, Win32 or SDL.  Checkout the Win32
-// implementation online, there is a Github "Gist" referenced on this tutorial
-// page.
-// 
-// 
-// � 2000-2014 GameTutorials

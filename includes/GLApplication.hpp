@@ -67,13 +67,3 @@ private:
 };
 
 #endif
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES *
-//
-// In this file we defined our main GLApplication class which runs the tutorial.
-//
-//
-// � 2000-2014 GameTutorials

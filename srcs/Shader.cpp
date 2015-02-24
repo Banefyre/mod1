@@ -1,13 +1,3 @@
-//***********************************************************************//
-//																		 //
-//		- "Talk to me like I'm a 3 year old!" Programming Lessons -		 //
-//																		 //
-//		$Program:		First OpenGL Program							 //
-//																		 //
-//		$Description:	Init OpenGL 4 and draw a triangle to the screen	 //
-//																		 //
-//***********************************************************************//
-
 #include <GL/glew.h>
 #include "../includes/Shader.hpp"							// References the Shader class definition and GLEW header
 
@@ -211,6 +201,3 @@ void Shader::destroy()
 //
 // Please review the Shader.vertex and Shader.fragment text files to see how our
 // GLSL shaders are created.
-//
-//
-// � 2000-2014 GameTutorials

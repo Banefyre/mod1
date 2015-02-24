@@ -57,14 +57,3 @@ private:
 };
 
 #endif
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// In this file we have our Shader class definition, which handles the loading,
-// compiling, attaching and using of shaders.
-// 
-// 
-// � 2000-2014 GameTutorials

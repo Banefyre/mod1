@@ -71,21 +71,4 @@ protected:
 	Camera *_camera;
 };
 
-#endif 
-
-//////////// *** NEW *** ////////// *** NEW *** ///////////// *** NEW *** ////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// The InputManager allows us to abstract the input away from the WindowManager so
-// it wouldn't matter if we used GLFW, Win32, SDL, Glut, etc., and just sends standardized
-// input codes from the WindowManager to this this class and then to the camera.
-// In this tutorial we just process the UP and DOWN arrow keys (or W,S) to mvoe the
-// camera back and forth, but later it will handle the left and right rotations and
-// even movement by the mouse and strafing.
-//
-//
-// � 2000-2015 GameTutorials
+#endif

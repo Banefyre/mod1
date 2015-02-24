@@ -88,20 +88,4 @@ protected:
 };
 
 
-#endif 
-
-//////////// *** NEW *** ////////// *** NEW *** ///////////// *** NEW *** ////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// The camera class is used to be able to move a camera around in the world and
-// take input from the user such as arrow keys, WASD keys or the mouse in a later
-// tutorial.  Unlike our older tutorials, we now depend on matrices more to be
-// able to calculate our camera vectors by our position and yaw/pitch rotations.
-// We no longer store a view or up vector, but derive those from our rotation
-// matrix which will be defined in the next tutorial.
-//
-// � 2000-2015 GameTutorials
+#endif

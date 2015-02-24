@@ -216,7 +216,4 @@ void GLFWManager::destroy()
 // so you don't have to generate them yourself.  You will also need to make sure 
 // you have the library compiled for your environment instead of the Windows 
 // environment in this tutorial.  Please refer to the Main.cpp file for the start 
-// of this tutorial.  Checkout the Win32Manager on the tutorial page online.
-// 
-//
-// � 2000-2014 GameTutorials
+// of this tutorial.

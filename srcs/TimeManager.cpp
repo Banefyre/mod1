@@ -107,6 +107,3 @@ void TimeManager::sleep(int ms)
 //
 // Use this class to calculate the frame rate and grab a time slice to make your
 // movement the same across all devices and environments.
-// 
-// 
-// � 2000-2014 GameTutorials

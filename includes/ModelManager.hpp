@@ -90,14 +90,3 @@ private:
 };
 
 #endif
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// This file stores our definitions for our Model and Vertex3 classes.  Please
-// look at Shader.cpp to get more information on how we create shaders in OpenGL.
-// 
-// 
-// � 2000-2014 GameTutorials

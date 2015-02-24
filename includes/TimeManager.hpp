@@ -42,14 +42,3 @@ private:
 };
 
 #endif
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// This file defines our TimeManager class for calculating frame rate and giving
-// a time slice between frames.
-//
-// 
-// � 2000-2014 GameTutorials

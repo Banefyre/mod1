@@ -1,13 +1,3 @@
-//***********************************************************************//
-//																		 //
-//		- "Talk to me like I'm a 3 year old!" Programming Lessons -		 //
-//                                                                       //
-//		$Program:		Camera											 //
-//																		 //
-//		$Description:	Moves a camera in 3D space from user input		 //
-//																		 //
-//***********************************************************************//
-
 #include <iostream>
 #include "../includes/Camera.hpp"
 
@@ -204,8 +194,6 @@ void Camera::setViewByMouse(float xOffset, float yOffset)
         _pitch = radians(-75.0f);
 }
 
-//////////// *** NEW *** ////////// *** NEW *** ///////////// *** NEW *** ////////////////////
-
 
 /////////////////////////////////////////////////////////////////////////////////
 //
@@ -227,5 +215,3 @@ void Camera::setViewByMouse(float xOffset, float yOffset)
 // multiply a matrix by it's inverse it returns the identity matrix.  As you will
 // see in the next tutorial we use the inverse to derive the view and up vector
 // from the inverse of the rotation matrix.
-//
-// �2000-2015 GameTutorials

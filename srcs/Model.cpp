@@ -221,5 +221,3 @@ void ModelManager::destroy()
 // The next tutorial will go over adding the ability to pass in colors to the 
 // shaders, which will require us to use an extra glVertexAttribPointer() call to
 // tell OpenGL where the color information is within our buffer.
-// 
-// � 2000-2014 GameTutorials

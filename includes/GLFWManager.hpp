@@ -43,16 +43,3 @@ protected:
 };
 
 #endif
-
-
-/////////////////////////////////////////////////////////////////////////////////
-//
-// * QUICK NOTES * 
-//
-// This class inherits the WindowManager abstract base class and is used to handle
-// the window management and input of the application, done using the cross-platform
-// GLFW library.  Be sure to use the right GLFW libraries for your different
-// environment.  This is built using the library for Windows.
-// 
-// 
-// � 2000-2014 GameTutorials

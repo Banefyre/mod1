@@ -56,9 +56,6 @@ void GLApplication::initialize(std::string map)
     land.initialize(landscape.vertab, landscape.size , "Shaders/Shader.vertex", "Shaders/Shader.fragment");
 
 
-    std::cout << landscape.size << std::endl;
-
-
     // Create the projection matrix from our camera and make the near field closer and the far field farther.
     // This makes it so our tower doesn't get cut off and also doesn't cull geometry right near the camera.
     //									 FOV		    Aspect Ratio			   Near / Far Planes

@@ -78,5 +78,3 @@ void InputManager::mouseMoved(float mouseX, float mouseY)
 // In this tutorial we just process the UP and DOWN arrow keys (or W,S) to move the
 // camera back and forth, but later it will handle the left and right rotations and
 // even movement by the mouse and strafing.
-//
-// � 2000-2015 GameTutorials
