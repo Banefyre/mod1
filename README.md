@@ -10,8 +10,11 @@ Usage: mod1 [map name] [scenario]
 Available scenario :
 
 -rise : water rising from a corner
+
 -empty : water receding from all four corners
+
 -wave : a wave fills the map and water re-equillibrate itself according to landscape topography
+
 -rain : rain falling on the map and filling it with water
 
 basic openGL stuff is based from http://www.gametutorials.com/tutorial/first-opengl-program-2/
