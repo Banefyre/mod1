@@ -3,8 +3,8 @@
 
 Usage: mod1 [map name] [scenario]
 
-![alt tag](https://raw.github.com/RhapsodySpade/mod1/blob/master/screenshot1.png)
-![alt tag](https://raw.github.com/RhapsodySpade/mod1/blob/master/screenshot2.png)
+![alt tag](https://raw.github.com/RhapsodySpade/mod1/master/screenshot1.png)
+![alt tag](https://raw.github.com/RhapsodySpade/mod1/master/screenshot2.png)
 
 
 Available scenario :
